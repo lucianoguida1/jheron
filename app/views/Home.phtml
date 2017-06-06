@@ -1,0 +1,69 @@
+<script type="text/javascript">
+	function atualiza(){
+		setTimeout(function(){
+			$.ajax({
+				type: "post",
+				data: "usuario = guida",
+				dataType: "html",
+				url: "<?=SITE?>home/atualizar/2", 
+				success: function(result){
+					$("#pedidos").html(result);
+					atualiza();
+				}});
+		},1000);
+	}
+
+	atualiza();
+
+</script>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3>Pedidos a Fazer</h3>
+				</div>
+				<div class="panel-body table-responsive">
+					<table class="table table-striped col-md-12">
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th>Sanduiches</th>
+								<th>Bebidas</th>
+								<th>Telefone</th>
+								<th>Troco</th>
+								<th>Endereco</th>
+								<th>Ação</th>
+							</tr>
+						</thead>
+						<tbody id="pedidos">
+							<?php if(isset($view_pedidos)){foreach($view_pedidos as $val){ ?>
+							<tr>
+								<td><?=$val->nome?></td>
+								<td><?php foreach($val->itens as $san){ echo "<div class='well well-sm'><b> ".$san->snack->nome."</b><br>".$san->ingr."</div>";};?></td>
+								<td><?php foreach($val->itens as $san){ foreach($san->adicionais as $add){echo "<div class='well well-sm'><b>".$add->bebida->produto->nome."</div>";}}?></td>
+								<td><?=$val->telefone?></td>
+								<td><?=$val->troco?></td>
+								<td>
+									Setor: <?=$val->setor?><br>
+									Rua: <?=$val->rua?><br>
+									Numero: <?=$val->numero?>
+								</td>
+								<td>
+									<a href="<?=SITE?>home/concluido/<?=$val->id?>" class='btn btn-success form-control'>Concluido</a>
+									<a href="<?=SITE?>home/concluidof/<?=$val->id?>" class='btn btn-warning form-control'>Concluido - Fiado</a>
+									<a href="<?=SITE?>home/cancelar/<?=$val->id?>" class='btn btn-danger form-control'>Cancela</a>
+								</td>
+							</tr>
+							<?php } }else{?>
+							<tr>
+								<td colspan="7"><h1>Nada ainda por aqui</h1></td>
+							</tr>
+							<?php	} ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

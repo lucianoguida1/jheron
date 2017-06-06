@@ -1,0 +1,48 @@
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Adicionar Bebida</h3>
+		</div>
+		<div class="panel-body">
+			<form action="<?=SITE?>produto/adicionar/bebida" method="POST" id='form'>
+				<label for="nome">Nome</label>
+				<input class="form-control telefone" type="text" name="nome" id="nome" value="" required="">
+
+				<label for="preco">Preço de entrada:</label>
+				<div class="input-group">
+					<span class="input-group-addon">R$</span>
+					<input type="text" class="form-control" name="preco" id="preco" aria-label="Amount (to the nearest dollar)">
+				</div>
+
+				<label for="valor">Preço para venda:</label>
+				<div class="input-group">
+					<span class="input-group-addon">R$</span>
+					<input type="text" class="form-control" name="valor" id="valor" aria-label="Amount (to the nearest dollar)">
+				</div>
+
+				<label for="quantidade">Quantidade:</label>
+				<input class="form-control telefone" type="text" name="quantidade" id="quantidade" value="" required="">
+
+				<label for="tamanho">Tamanho:</label>
+				<div class="input-group">
+					<input class="form-control telefone" type="text" name="tamanho" id="tamanho" value="" required="">
+					<span class="input-group-addon" id="basic-addon2" style="padding: 0px;">
+						<select name='medida' style="padding: 5px 5px 5px 5px; font-weight: 800;width: 100px;">
+							<option value="Lt">Lt</option>
+							<option value="Ml">Ml</option>
+						</select>
+					</span>
+				</div>
+				<label for="tamanho">Fornecedor</label>
+				<select class="form-control" name="fornecedor">
+					<?php foreach($view_dados as $val){ ?>
+					<option value="<?=$val->id?>"><?=$val->nome?></option>
+					<?php } ?>
+				</select>
+				<br><button class="btn btn-primary ">
+				<h3>Adiconar</h3>
+				</button>
+			</form>
+		</div>
+	</div>
+</div>

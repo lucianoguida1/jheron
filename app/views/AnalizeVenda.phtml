@@ -1,0 +1,66 @@
+<script src="<?=JS?>Chart.min.js"></script>
+
+<script type="text/javascript">
+    var randomnb = function(){ return Math.round(Math.random()*300)};
+</script>
+<div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Analize de Vendas</h3>
+        </div>
+        <div class="panel-body">
+
+            <div>
+                <div class="btn-group btn-group-lg" role="group" aria-label="...">
+
+                    <button type="button" class="btn btn-default <?=$view_btn0?>" onclick="location='<?=SITE?>analize/venda'">Mensal</button>
+                    <button type="button" class="btn btn-default <?=$view_btn2?>" onclick="location='<?=SITE?>analize/venda/2'">Anual</button>
+                    <button type="button" class="btn btn-default <?=$view_btn1?>" onclick="location='<?=SITE?>analize/venda/1'">Semanal</button>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+
+                <h2>Gráfico de Vendas</h2>
+                <small>Dados gerados com função as vendas completadas.</small><br>
+
+                <div class="box-chart">
+
+                    <canvas id="GraficoLine" style="width:100%;"></canvas>
+
+                    <script type="text/javascript">
+
+                        var options = {
+                            responsive:true
+                        };
+
+                        var data = {
+                            labels: [<?=$view_dias?>],
+                            datasets: [
+                            {
+                                label: "Dados primários",
+                                fillColor: "rgba(255, 251, 40,0.2)",
+                                strokeColor: "rgba(255,40,40,1)",
+                                pointColor: "rgba(255,40,40,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                data: [<?=$view_valor?>]
+                            }
+                            ]
+                        };               
+
+                        window.onload = function(){
+
+                            var ctx = document.getElementById("GraficoLine").getContext("2d");
+                            var LineChart = new Chart(ctx).Line(data, options);
+                        }  
+                    </script>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

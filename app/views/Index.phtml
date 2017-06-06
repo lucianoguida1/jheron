@@ -1,0 +1,115 @@
+<style type="text/css">
+    .quantidade{
+        float: right;
+        width: 15%;
+        margin-top: 2px;
+    }
+    .preco{
+        font-size: 12pt;
+    }
+    .widget{
+        float: right;
+        width: 100%;
+    }
+    label{
+        width: 85%;
+        float: left;
+    }
+    .NomePreco{
+        margin-left: 15px;
+        text-align: left;
+    }
+    button{
+        width: 95%;
+    }
+    .add{
+        background: green;
+        color: white;
+        border: green;
+    }
+    .ex{
+        background-color: red;
+        color: white;
+        border: red;
+    }
+    .quantidade>input{
+        width: 100%;
+        padding-top: 3px;
+        margin-top: 2px;
+        font-weight: 700;
+        font-size: 14pt;
+        text-align: center;
+        border: none;
+        background: white;
+    }
+</style>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $(".add").click(function(event) {
+            var val = parseInt($("#"+$(this).attr('id')+"qnt").val());
+            $("#"+$(this).attr('id')+"qnt").val(val+1);
+        });
+        $(".ex").click(function(event) {
+            var val = parseInt($("#"+$(this).attr('id')+"qnt").val());
+            if(val >0){
+                $("#"+$(this).attr('id')+"qnt").val(val-1);
+            }
+        });
+        $("form").submit(function(event) {
+            var test = false;
+            $(".quantidade").find("input").each(function(index, el) {
+                if($(this).val()>0){
+                    test = true;
+                }               
+            });
+            if(test){
+                $(".quantidade").find("input").each(function(index, el) {
+                    $(this).removeAttr('disabled')
+                })
+                return true;}else{return false;}
+        });
+    });
+</script>
+<form method="POST" action="<?=SITE?>pedido/Ingr">
+    <fieldset>
+        <legend class="tituloVerde"><b>SANDUICHES</b></legend>
+        <?php foreach($view_dados as $val){?>
+        
+        <div class="widget" id="<?=$val->id?>">
+            <label for="<?=$val->id?>-radio" style="">
+                <h2 class="NomePreco">
+                <b class="NomeLanche"><?=$val->nome?></b>
+                <span class='preco'>R$ <?=number_format($val->preco, 2, ',', '.')?></span>
+                </h2>
+                <p class="IngredientesLanche">
+                <?php foreach($val->ingredientes as $ing){ 
+                    echo $ing->produto->nome." ";
+                } ?></p>    
+            </label>
+            <div class="quantidade">
+                <button class="add" type="button" id="<?=$val->id?>">+</button>
+                <input type="text" value="0" disabled="" name="<?=$val->id?>sanduiche" id="<?=$val->id?>qnt">
+                <button class="ex" type="button" id="<?=$val->id?>">-</button>
+            </div>
+        </div>
+        <?php } ?>
+    </fieldset>
+    <fieldset>
+            <legend class="tituloVerde"><b>BEBIDAS</b></legend>
+            <?php foreach($view_bebidas as $val){ ?>
+            <div class="widget">
+                <label for="checkbox-<?=$val->id*10?>">
+                    <h3><b><?=$val->produto->nome?></b> <small><?=$val->tamanho?> <?=$val->produto->estoques[0]->medida?></small>- R$ <?=number_format($val->valor, 2, ',', '.')?></h3>    
+                </label>
+                <div class="quantidade">
+                    <button class="add" type="button" id="<?=$val->id*10?>">+</button>
+                    <input type="text" value="0" disabled="" name="<?=$val->id*10?>bebida" id="<?=$val->id*10?>qnt">
+                    <button class="ex" type="button" id="<?=$val->id*10?>">-</button>
+                </div>
+            </div>
+            <?php } ?>
+    </fieldset>
+    <button class="btn btn-primary" type="submit">
+        <h3>Iniciar Pedido</h3>
+    </button>
+</form>

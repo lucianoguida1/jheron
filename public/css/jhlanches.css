@@ -1,0 +1,36 @@
+body{
+	background-color: #FFDF00;
+}
+.NomeLanche{
+	text-align: left;
+	padding-top: 0px;
+}
+.IngredientesLanche{
+	text-align: left;
+	padding-left: 20px;
+	font-size: 12pt;
+	margin-top: -10px;
+	color: red;
+}
+.preco{
+	float: right;
+}
+.NomePreco{
+	border-bottom: 1px dashed black;
+	margin: 15px;
+}
+.tituloVerde{
+	color: red;
+    font-size: 20pt;
+    font-weight: 800;
+    padding: 5px;
+}
+.tituloVerde>b{
+	text-shadow: black 1px 1px;
+}
+
+.tbIngrediente>tr{
+	width: 100%;
+	text-align: center;
+	border: none;
+}

@@ -1,0 +1,54 @@
+<div class="col-md-8 col-md-offset-2">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Todos os produtos</h3>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped">
+       <thead>
+        <tr>
+         <th>Nome</th>
+         <th>Preço</th>
+         <th>Quantidade</th>
+         <th>Fornecedores</th>
+         <th></th>
+       </tr>
+     </thead>
+     <tbody>
+      <?php
+      foreach($view_dados as $val){ ?>
+      <tr>
+       <td><?=$val->nome?></td>
+       <td>R$: <?=number_format(Estoque::find('last',array('conditions'=>array('produto_id = ?',$val->id)))->preco, 2, ',', '.')?></td>
+       <td><?php
+        $res =0;
+        foreach($val->estoques as $vall){
+          if($vall->status == 1){
+            $res += $vall->quantidade;
+          }
+        }echo $res." ".$vall->medida;
+        ?></td>
+        <td><?php
+          foreach($val->estoques as $vall){
+            if(count($val->estoques) >1){
+              echo $vall->fornecedor->nome.", ";
+            }else{echo $vall->fornecedor->nome." ";}
+          }?></td>
+          <td>
+            <div class="btn-group">
+             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Ações <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+             <li><a href="<?=SITE?>produto/modificaP/<?=$val->id?>">Modificar</a></li>
+             <li><a href="<?=SITE?>produto/removerp/<?=$val->id?>">Excluir</a></li>
+           </ul>
+         </div>
+       </td>
+     </tr>
+     <?php } ?>
+   </tbody>
+ </table>
+</div>
+</div>
+</div>

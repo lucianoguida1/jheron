@@ -1,0 +1,33 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#lanche").change(function(){
+			$.ajax({
+				type: "post",
+				data: "id="+$("#lanche").val(),
+				dataType: "html",
+				url: "<?=SITE?>ajax/select/lanches", 
+				success: function(result){
+					$("#dados").html(result);
+				}});
+		});
+	});
+</script>
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Criar Sanduiche</h3>
+		</div>
+		<div class="panel-body">
+			<form action="<?=SITE?>produto/remover/lanche" method="POST" id='form'>
+				<label for="lanche">Lanche</label>
+				<select class="form-control" name="lanche" id="lanche">
+					<?php foreach($view_dados as $val){ ?>
+					<option value="<?=$val->id?>"><?=$val->nome?></option>
+					<?php } ?>
+				</select>
+
+				<div id="dados"></div>
+			</form>
+		</div>
+	</div>
+</div>

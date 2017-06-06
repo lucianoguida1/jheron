@@ -1,0 +1,51 @@
+<div class="panel panel-primary">
+	<!-- Default panel contents -->
+	<div class="panel-heading">Meus Sanduiches</div>
+	<!-- Table -->
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Pedido</th>
+				<th>Altera</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php $total = 0; foreach($_SESSION['sanduiches'] as $key => $val){
+				$aux = $val;unset($aux['sanduiche']);unset($aux['ing']);
+				$total += Snack::find($val['sanduiche'])->preco;
+				?>
+				<tr>
+					<td style="text-align: center">
+						<h4><b><?=Snack::find($val['sanduiche'])->nome?></b></h4>
+						<p><?=$val['ing']?></p>
+						<p><?php echo !empty($aux)?"<b>Bebidas</b><br>":false; foreach($aux as $va){ echo bebida::find($va)->produto->nome.", "; $total += bebida::find($va)->valor;}?></p>
+					</td>
+					<td>
+						<div class="dropdown ">
+							<button class="btn btn-default dropdown-toggle form-control" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								Alterar
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="<?=SITE.'pedido/remover/'.$key?>"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Remover</a></li>
+								<li><a href="<?=SITE.'pedido/altera/'.$key?>"><i class="fa fa-cog" aria-hidden="true"></i> Modifica</a></li>
+								<li><a href="<?=SITE.'pedido/addb/'.$key?>"><i class="fa fa-check-square-o" aria-hidden="true"></i> Add. Bebida</a></li>
+								<?php foreach($aux as $va){ ?>
+								<li><a href="<?=SITE.'pedido/removerb/'.$va.'/'.$key?>"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Remover <b><?=bebida::find($va)->produto->nome?></b></a></li>
+								<?php } $_SESSION['total']=$total;?>
+							</ul>
+						</div>
+					</td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan="2" style="text-align: center"><p><a class="btn btn-success btn-lg" style="width: 100%;" href="<?=SITE?>" role="button">Adicionar Sanduiche</a></p>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center"><p><a class="btn btn-primary btn-lg" href="<?=SITE?>pedido/endereco" role="button">Concluir</a></p></td>
+					<td><h4>Total<br><b>R$ <?=$total?></b><h4></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>

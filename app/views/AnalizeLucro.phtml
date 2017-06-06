@@ -1,0 +1,35 @@
+<div class="col-md-6 col-md-offset-3">
+	<div class="panel panel-primary">
+		<div class="panel-heading">ANALIZE DE LUCROS.</div>
+		<div class="panel-body">
+		<p>Esta analize é mensal, referente ao mês <b><?=date('m')?></b></p>
+			<table class="table">
+			<tr>
+				<th>Vendas<br>(<?=$view_vendaV?>%)</th>
+				<th>
+					<div class="progress">
+						<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: <?=$view_vendaP?>%">
+						<span class="sr-only">40% Complete (success)</span>
+						</div>
+					</div>
+				</th>
+			</tr>
+			<tr>
+				<th>Compras<br>(R$ <?=$view_compra?>)</th>
+				<th width="80%">
+					<div class="progress">
+						<div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+						<span class="sr-only">40% Complete (danger)</span>
+						</div>
+					</div>
+				</th>
+			</tr>
+			</table>
+		</div>
+		<div class="panel-footer">
+			Uma analize completa sera realizada quando acabar seu primeiro estoque.
+		</div>
+	</div>
+</div>
+
+

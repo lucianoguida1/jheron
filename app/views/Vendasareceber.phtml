@@ -1,0 +1,82 @@
+<script type="text/javascript">
+	$(function(){
+		
+	});
+	function divida(id){
+		$.ajax({
+			type: "post",
+			data: "usuario = guida",
+			dataType: "html",
+			url: "<?=SITE?>ajax/dividacompleta/"+id, 
+			success: function(result){
+				$("#dividas").html(result);
+			}});
+	}
+	function recebido(id){
+		$.ajax({
+			type: "post",
+			data: "usuario = guida",
+			dataType: "html",
+			url: "<?=SITE?>ajax/recebido/"+id, 
+			success: function(result){
+				$("#dividas").html(result);
+			}});
+	}
+</script>
+<div id="retorno"></div>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="nome">...</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-striped col-md-8">
+					<thead>
+						<tr>
+							<th>Sanduiches</th>
+							<th>Bebidas</th>
+							<th>Dia</th>
+							<th>Troco</th>
+							<th>Ação</th>
+						</tr>
+					</thead>
+					<tbody id="dividas"></tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Vendas a Receber</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Telefone</th>
+						<th>Divida</th>
+						<th>Ultima compra</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php if(!empty($view_dados) && isset($view_dados)){ foreach($view_dados as $val){ ?>
+					<tr>
+						<td><?=$val->nome?></td>
+						<td><?=$val->telefone?></td>
+						<td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="divida(<?=$val->telefone?>)">R$ <?=$view_divida[$val->telefone]?></button></td>
+						<td><?=$val->data->format('d/M/Y h:i')?></td>
+					</tr>
+					<?php }}else{echo "<tr><td rowspan='4'><b>Não a vendas a receber!</b></td></tr>";} ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

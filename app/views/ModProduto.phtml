@@ -1,0 +1,58 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#produto1").change(function(){
+			$.ajax({
+		    type: "post",
+		    data: "id="+$("#produto1").val(),
+		    dataType: "html",
+		    url: "<?=SITE?>ajax/produto", 
+		    success: function(result){
+		    	$("#script").html(result);
+		    	$("#volta").show('fast');
+			}});
+		});
+	})
+</script>
+<div id="script"></div>
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Modificar Ingrediente</h3>
+		</div>
+		<div class="panel-body">
+<form action="<?=SITE?>produto/modificap/" method="POST" id='form'>
+	<label for="tamanho">Ingrediente</label>
+	<select class="form-control" name="produto" id="produto1">
+		<?php foreach($view_dados as $val){ ?>
+			<option value="<?=$val->id?>"><?=$val->nome?></option>
+		<?php } ?>
+	</select>
+	<div id="volta" style="display: none;">
+		<label for="nome">Nome</label>
+		<input class="form-control telefone" type="text" name="nome" id="nome" value="" required="">
+		
+		
+		
+		<br><button class="btn btn-primary">
+	        <h3>Finalizar Pedido</h3>
+	    </button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+<?php
+	if(isset($view_prodid) && !empty($view_prodid)){
+		echo '<script type="text/javascript">
+		$.ajax({
+		    type: "post",
+		    data: "id="+'.$view_prodid.',
+		    dataType: "html",
+		    url: "'.SITE.'ajax/produto", 
+		    success: function(result){
+		    	$("#script").html(result);
+		    	$("#volta").show("fast");
+			}});
+		</script>';
+	}
+?>

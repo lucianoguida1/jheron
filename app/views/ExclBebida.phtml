@@ -1,0 +1,33 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#bebida").change(function(){
+			$.ajax({
+				type: "post",
+				data: "id="+$("#bebida").val(),
+				dataType: "html",
+				url: "<?=SITE?>ajax/select/bebidas", 
+				success: function(result){
+					$("#dados").html(result);
+				}});
+		});
+	});
+</script>
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Excluir Bebida</h3>
+		</div>
+		<div class="panel-body">
+			<form action="<?=SITE?>produto/remover/bebida" method="POST" id='form'>
+				<label for="bebida">bebida</label>
+				<select class="form-control" name="bebida" id="bebida">
+					<?php foreach($view_dados as $val){ ?>
+					<option value="<?=$val->id?>"><?=$val->produto->nome?></option>
+					<?php } ?>
+				</select>
+
+				<div id="dados"></div>
+			</form>
+		</div>
+	</div>
+</div>

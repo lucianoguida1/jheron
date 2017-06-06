@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="<?=CSS;?>jquery.dataTables.css" type="text/css">
+<link rel="stylesheet" href="<?=CSS;?>dataTables.bootstrap.css" type="text/css">
+<script src="<?=SITE?>public/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+	$(document).ready( function () {
+		$('#teste').DataTable({
+			paging: false,
+			ordering: true
+		});
+	} );
+</script>
+<?php
+$ant ="";$teste=false;
+$err1 = "<div id='alerts'><div class='alert alert-block alert-warning'><a href='#' data-dismiss='alert' class='close'>×</a><h4>Seu estoque da pra fazer menos de <b>5</b> </h4>";
+$err2 = "<div id='alerts'><div class='alert alert-block alert-warning'><a href='#' data-dismiss='alert' class='close'>×</a><h4>Seu estoque da pra fazer de 2 ou mais!</h4>";
+foreach($view_lanches as $val){
+	foreach($val->ingredientes as $igr){$qnt=0;
+		foreach($igr->produto->estoques as $vall){
+			if($vall->status ==1){
+				$qnt += $vall->quantidade;
+			}
+		}
+		if((5*$igr->quantidade) >= ($qnt)){
+			if($ant != $val->nome){
+				$err1 .= '<p>'.$val->nome.'</p>';
+				$ant = $val->nome;
+				$teste = true;
+			}
+		}
+	}
+}
+$err1.='</div></div>';
+if($teste){
+	echo $err1;
+}
+?>
+<div class="col-md-6 col-md-offset-3">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Analize de estoque</h3>
+		</div>
+		<div class="panel-body">
+			<div>
+				<table class="table table-striped" id="teste" data-order='[[ 2, "asc" ]]' data-page-length='25'>
+					<thead>
+						<tr>
+							<th>Produto</th>
+							<th>Preço</th>
+							<th>Quantidade</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($view_dados as $val){ ?>
+						<tr>
+							<td><?=$val->nome?></td>
+							<td>R$ <?=number_format($num, Estoque::find('last',array('conditions'=>array('produto_id = ?',$val->id)))->preco, ',', '.')?></td>
+							<td data-class-name="priority"><?php
+								$res =0;
+								foreach($val->estoques as $val){
+									if($val->status == 1){
+										$res += $val->quantidade;
+									}
+									$medida = $val->medida;
+								}echo $res." ".$medida;
+								?></td>
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>

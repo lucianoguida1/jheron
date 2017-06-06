@@ -1,0 +1,64 @@
+<div class="col-md-6 col-md-offset-3">
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">MELHOR PREÇO</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Produto</th>
+						<th>Fornecedro</th>
+						<th>Preco</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $total=0; foreach($view_barato as $key => $val){ ?>
+					<tr>
+						<td><?=$key?></td>
+						<td><?=$val['fornecedor']?></td>
+						<td>R$:<?=$val['preco']?></td>
+					</tr>
+					<?php $total += $val['preco'];} ?>
+					<tr>
+						<th colspan="2">Total</th>
+						<th>R$: <?=$total?></th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<?php foreach($view_dados as $key => $dados){ $total = $dados['total']; unset($dados['total']); $id=(Fornecedor::find_by_nome($key)->id) ?>
+	<div class="col-md-5 col-md-offset-1">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"><?=$key?></h3>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Ultima Compra</th>
+							<th>Preco</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($dados as $key => $val){ ?>
+						<tr>
+							<td><?=$val->nome?></td>
+							<td><?=Estoque::find('last',array('conditions'=>array('produto_id = ?',$val->id)))->data->format('d/m/Y');?></td>
+							<td>R$:<?=number_format(Estoque::find('last',array('conditions'=>array('fornecedor_id = ? AND produto_id = ?',$id,$val->id)))->preco, 2, ',', '.');?></td>
+						</tr>
+						<?php } ?>
+						<tr>
+							<th colspan="2">Total</th>
+							<th>R$: <?=$total?></th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<?php } ?>

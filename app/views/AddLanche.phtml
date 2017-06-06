@@ -1,0 +1,115 @@
+<style type="text/css">
+	.cmn-toggle {
+		position: absolute;
+		margin-left: -9999px;
+		visibility: hidden;
+	}
+	.cmn-toggle + label {
+		display: block;
+		position: relative;
+		cursor: pointer;
+		outline: none;
+		user-select: none;
+	}
+	input.cmn-toggle-yes-no + label {
+		padding: 2px;
+		width: 120px;
+		height: 30px;
+	}
+	input.cmn-toggle-yes-no + label:before,
+	input.cmn-toggle-yes-no + label:after {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		color: #fff;
+		/*font-family: "Roboto Slab", serif;*/
+		font-size: 15px;
+		text-align: center;
+		line-height: 30px;
+	}
+	input.cmn-toggle-yes-no + label:before {
+		background-color: red;
+		content: attr(data-off);
+		transition: transform 0.5s;
+		backface-visibility: hidden;
+	}
+	input.cmn-toggle-yes-no + label:after {
+		background-color: green;
+		content: attr(data-on);
+		transition: transform 0.5s;
+		transform: rotateY(180deg);
+		backface-visibility: hidden;
+	}
+	input.cmn-toggle-yes-no:checked + label:before {
+		transform: rotateY(180deg);
+	}
+	input.cmn-toggle-yes-no:checked + label:after {
+		transform: rotateY(0);
+	}
+
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('input:checkbox').change(function(){
+			if($(this).val() =="on"){
+				$(this).val('off');
+			}else{
+				$(this).val('on');
+			}
+		});
+		$("#form").submit(function() {
+			$('input:checkbox').each(function(){
+				if(!($(this).prop('checked'))){
+					$(this).prop('checked',true);
+				}
+			});
+		});
+	});
+</script>
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Criar Sanduiche</h3>
+		</div>
+		<div class="panel-body">
+			<form action="<?=SITE?>produto/adicionar/lanche" method="POST" id='form' >
+				<label for="nome">Nome do Lanche:</label>
+				<input class="form-control telefone" type="text" name="nome" id="nome" value="" required="">
+				<div class="widget">
+					<fieldset>
+						<legend>Ingredientes:</legend>
+						<table class="table table-striped">
+							<?php	foreach($view_dados as $val){	?>
+							<tr>
+								<th>
+									<?=$val->nome?>
+								</th>
+								<td>
+									<div class="switch">
+										<input id="cmn-toggle-7<?=$val->id?>" class="cmn-toggle cmn-toggle-yes-no" checked="checked" value="on" name="<?=$val->id?>" type="checkbox" id="ing<?=$val->id?>">
+										<label for="cmn-toggle-7<?=$val->id?>" data-on="Com" data-off="Sem"></label>
+
+									</div>
+								</td>
+
+							</tr>
+							<?php } ?>
+						</table>
+					</fieldset>
+				</div>
+				<label for="preco">Preço:</label>
+				<div class="input-group">
+					<span class="input-group-addon">$</span>
+					<input type="number" class="form-control" name="preco" id="preco" aria-label="Amount (to the nearest dollar)">
+				</div>
+
+				<br><button class="btn btn-success">
+				<h3>CRIAR</h3>
+			</button>
+		</form>
+	</div>
+</div>
+</div>

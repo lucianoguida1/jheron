@@ -1,0 +1,82 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://digitalbush.com/wp-content/uploads/2014/10/jquery.maskedinput.js"></script>
+<script type="text/javascript">
+	$(function(){
+		jQuery("input.telefone")
+		.mask("(99) 9999-9999?9")
+		.focusout(function (event) {  
+			var target, phone, element;  
+			target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+			phone = target.value.replace(/\D/g, '');
+			element = $(target);  
+			element.unmask();  
+			if(phone.length > 10) {  
+				element.mask("(99) 99999-999?9");  
+			} else {  
+				element.mask("(99) 9999-9999?9");  
+			}  
+		});
+		$("input.telefone").blur(function(event) {
+			var string = $(this).val();
+			var numsStr = string.replace(/[^0-9]/g,'');
+			$.ajax({
+				type: "post",
+				data: "usuario = guida",
+				dataType: "html",
+				url: "<?=SITE?>pedido/cell/"+numsStr, 
+				success: function(result){
+					$("#retorno").html(result);
+					$("#retorno").show('fast');
+				}})
+		});
+	});
+</script>
+<div class="container-fuid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<b>Endereço</b>
+				</div>
+				<div class="panel-body table-responsive">
+					<form method="post" action="<?=SITE?>pedido/concluir">
+						<div class="input-group">
+							<label for="tel">Telefone / celular:</label>
+							<input class="form-control telefone" type="tel" name="telefone" id="tel" value="" required="">
+						</div>
+						<div id="retorno"></div>
+						<div class="input-group">
+							<label for="nome">Nome:</label>
+							<input class="form-control" type="text" name="nome" id="nome" value="" required="">
+						</div>
+						<div class="input-group">
+							<label for="setor">Setor:</label>
+							<input class="form-control" type="text" name="setor" id="setor" value="" required="">
+						</div>
+						<div class="input-group">
+							<label for="rua">Rua:</label>
+							<input class="form-control" type="text" name="rua" id="rua" value="" required="">
+						</div>
+						<div class="input-group">
+							<label for="numero">Numero:</label>
+							<input class="form-control" type="text" name="numero" id="numero" value="" required="">
+						</div>
+						<label for="troco">Troco:</label>
+						<div class="input-group">
+							<span class="input-group-addon">$</span>
+							<input class="form-control" type="number" aria-label="Amount (to the nearest dollar)" name="troco" pattern="[0-9]*" id="troco" value="0" required="">
+							<span class="input-group-addon">.00</span>
+						</div>
+						<div class="input-group">
+							<label for="referencia">Ponto de Referencia:</label>
+							<input class="form-control" type="text" name="referencia" id="referencia" value="">
+						</div><br>
+						<div class="input-group">
+							<button type="submit" class="btn btn-lg btn-success" name="" >Cuncluir Pedido</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

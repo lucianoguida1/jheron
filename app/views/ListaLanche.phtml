@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+			    	<h3>Meus Lanches</h3>
+				</div>
+			<div class="panel-body table-responsive">
+				<table class="table table-striped col-md-12">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Preço</th>
+							<th>Preço de Prudução</th>
+							<th>Ingredientes</th>
+							<th>#</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($view_lanches as $val){ $preco=0; foreach($val->ingredientes as $p){
+							$preco+=$p->produto->estoques[0]->preco;
+							//var_dump();
+							} ?>
+						<tr>
+							<td><?=$val->nome?></td>
+							<td>R$ <?=number_format($val->preco, 2, ',', '.')?></td>
+							<td>R$ <?=$preco?></td>
+							<td><?php foreach($val->ingredientes as $vall){ echo $vall->produto->nome." ,";} ?></td>
+							<td><div class="btn-group">
+							  	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    Ações <span class="caret"></span>
+							  	</button>
+							  	<ul class="dropdown-menu">
+							    	<li><a href="<?=SITE?>produto/modificar/lanche">Modificar</a></li>
+							    	<li><a href="<?=SITE?>produto/remover/lanche">Excluir</a></li>
+							  	</ul>
+							</div>
+							</td>
+						</tr>
+						<?php } ?>
+					</tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>

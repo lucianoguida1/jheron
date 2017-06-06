@@ -1,0 +1,118 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://digitalbush.com/wp-content/uploads/2014/10/jquery.maskedinput.js"></script><script type="text/javascript">
+	$(function(){
+		jQuery("input.telefone")
+		.mask("(99) 9999-9999?9")
+		.focusout(function (event) {  
+			var target, phone, element;  
+			target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+			phone = target.value.replace(/\D/g, '');
+			element = $(target);  
+			element.unmask();  
+			if(phone.length > 10) {  
+				element.mask("(99) 99999-999?9");  
+			} else {  
+				element.mask("(99) 9999-9999?9");  
+			}  
+		});
+	});
+	$(document).ready(function(){
+		
+		$("#fornec").submit(function(){
+			var nome = $("#nome").val();
+			var endereco = $("#endereco").val();
+			var telefone = $("#telefone").val();
+			$.ajax({
+			type: "post",
+			data: "usuario = guida",
+			dataType: "html",
+			url: "<?=SITE?>ajax/cadastrofornec/"+nome+"/"+endereco+"/"+telefone, 
+			success: function(result){
+				$("#retorno").html(result);
+			}});
+			return false;
+		});
+	});
+</script>
+<div id="retorno"></div>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Adicionar Fornecedor</h4>
+			</div>
+			<div class="modal-body">
+				<form id="fornec" action="#" class="form-horizontal" method="POST">
+					<div class="input-group">
+						<label for="nome">Nome:</label>
+						<input type="text" name="nome" id="nome" class="form-control" placeholder="Nome">
+					</div><br>
+					<div class="input-group">
+						<label for="endereco">Endereço:</label>
+						<input type="text" name="endereco" id="endereco" class="form-control" placeholder="Endereço">
+					</div><br>
+					<div class="input-group">
+						<label for="telefone">Telefone:</label>
+						<input type="tel" name="telefone" id="telefone" class="form-control telefone" placeholder="Telefone">
+					</div><br>
+					<button type="submit" class="btn btn-success">Cadastrar</button>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Atualizar Estoque</h3>
+		</div>
+		<div class="panel-body">
+			<form action="<?=SITE?>estoque/atualizar" method="POST">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Quantidade</th>
+							<th>Preço</th>
+							<th>Fornecedor</th>
+							<th>Adic. Fornecedor</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($view_dados as $val){?>
+						<tr>
+							<th><?=$val->nome?></th>
+							<td>
+								<div class="input-group">
+									<input type="number" name="quantidade-<?=$val->id?>" class="form-control" value='0' placeholder="Quantidade">
+									<span class="input-group-addon" id="basic-addon1"><?=end($val->estoques)->medida?></span>
+								</div>
+							<td>
+								<div class="input-group">
+									<span class="input-group-addon">R$</span>
+									<input type="number" name="preco-<?=$val->id?>" class="form-control" value='0' placeholder="Preço">
+								</div>
+							</td>
+							<td>
+								<select name="fornecedor-<?=$val->id?>" class="form-control">
+									<?php foreach($view_fornecedor as $vall){ ?>
+									<option value="<?=$vall->id?>" <?php echo $opc = ($vall->id == end($val->estoques)->fornecedor_id? 'selected': false) ?>><?=$vall->nome?></option>
+									<?php } ?>
+								</select>
+							</td>
+							<td><button type='button' class="btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button></td>
+						</tr>
+						<?php } ?>
+						<tr>
+							<td colspan="4"><button class="btn btn-success form-control"><b>Salvar estoque</b></button></td>
+						</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+</div>

@@ -1,0 +1,52 @@
+<script type="text/javascript">
+	function finalizar(id){
+		$.ajax({
+		type: "post",
+		dataType: "html",
+		url: "<?=SITE?>ajax/finalizarestoque/"+id, 
+		success: function(result){
+			//$("#retorno").html(result);
+			if(result == true){
+				$("#"+id).attr('disabled','disabled');
+			}else{
+				$("#retorno").html(result);
+			}
+		}})
+	}
+</script>
+<div id="retorno"></div>
+<div class="col-md-8 col-md-offset-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">baixa no estoque</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Quantidade</th>
+						<th>Fornecedor</th>
+						<th>-</th>
+					</tr>
+				</thead>
+				<tbody>
+			<?php foreach($view_dados as $val){ ?>
+				<tr>
+					<th><?=$val->nome?></th>
+					<td>
+						<?php $qnt=0; foreach($val->estoques as $vall){if($vall->status ==1){$qnt+=$vall->quantidade;}} echo $qnt;?>
+					</td>
+					<td>
+						<?=end($val->estoques)->fornecedor->nome?>
+					</td>
+					<td>
+						<button class="btn btn-primary" <?php echo $qnt<=0?"disabled='disabled'":false; ?> id="<?=$val->id?>" onclick="finalizar(<?=$val->id?>)">Finalizar</button>
+					</td>
+				</tr>
+			<?php } ?>
+			</tbody>
+			</table>
+		</div>
+	</div>
+</div>

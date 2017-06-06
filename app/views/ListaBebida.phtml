@@ -1,0 +1,44 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+			    	<h3>Minhas Bebidas</h3>
+				</div>
+			<div class="panel-body table-responsive">
+				<table class="table table-striped col-md-12">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Preço de entrada</th>
+							<th>Preço de venda</th>
+							<th>Tamanho</th>
+							<th>#</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($view_bebidas as $val){ ?>
+						<tr>
+							<td><?=$val->produto->nome?></td>
+							<td>R$: <?=number_format(Estoque::find('last',array('conditions'=>array('produto_id = ?',$val->produto->id)))->preco, 2, ',', '.')?></td>
+							<td>R$: <?=$val->valor?></td>
+							<td><?=$val->tamanho?> <?=Estoque::find('last',array('conditions'=>array('produto_id = ?',$val->produto->id)))->medida?></td>
+							<td><div class="btn-group">
+							  	<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    Ações <span class="caret"></span>
+							  	</button>
+							  	<ul class="dropdown-menu">
+							    	<li><a href="<?=SITE?>produto/modificar/bebida">Modificar</a></li>
+							    	<li><a href="<?=SITE?>produto/remover/bebida">Excluir</a></li>
+							  	</ul>
+							</div>
+							</td>
+						</tr>
+						<?php } ?>
+					</tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>

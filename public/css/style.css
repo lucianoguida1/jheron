@@ -1,0 +1,20 @@
+body{
+	background: white;
+}
+.logo{
+	width: 40%;
+	max-width: 300px;
+	max-height: 300px;
+	
+}
+.dropdown-menu>li>a{
+	padding-left: 10px;
+}
+.widget{
+	text-align: center;
+	background-color: white;
+	margin-top: 3px;
+}
+.preco{
+	font-size: 10pt;
+}

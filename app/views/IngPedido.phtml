@@ -1,0 +1,111 @@
+<script type="text/javascript">
+	$(function(){
+		
+		//$( "fieldset" ).controlgroup();
+		$('input:checkbox').change(function(){
+			if($(this).val() =="on"){
+				$(this).val('off');
+			}else{
+				$(this).val('on');
+			}
+		});
+		$("#form").submit(function() {
+			$('input:checkbox').each(function(){
+				if(!($(this).prop('checked'))){
+					$(this).prop('checked',true);
+				}
+			});
+		});
+	});
+</script>
+<style type="text/css">
+	.cmn-toggle {
+		position: absolute;
+		margin-left: -9999px;
+		visibility: hidden;
+	}
+	.cmn-toggle + label {
+		display: block;
+		position: relative;
+		cursor: pointer;
+		outline: none;
+		user-select: none;
+	}
+	input.cmn-toggle-yes-no + label {
+		padding: 2px;
+		width: 120px;
+		height: 60px;
+	}
+	input.cmn-toggle-yes-no + label:before,
+	input.cmn-toggle-yes-no + label:after {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		color: #fff;
+		font-family: "Roboto Slab", serif;
+		font-size: 20px;
+		text-align: center;
+		line-height: 60px;
+	}
+	input.cmn-toggle-yes-no + label:before {
+		background-color: red;
+		content: attr(data-off);
+		transition: transform 0.5s;
+		backface-visibility: hidden;
+	}
+	input.cmn-toggle-yes-no + label:after {
+		background-color: green;
+		content: attr(data-on);
+		transition: transform 0.5s;
+		transform: rotateY(180deg);
+		backface-visibility: hidden;
+	}
+	input.cmn-toggle-yes-no:checked + label:before {
+		transform: rotateY(180deg);
+	}
+	input.cmn-toggle-yes-no:checked + label:after {
+		transform: rotateY(0);
+	}
+
+</style>
+
+
+
+<form action="<?=SITE?>pedido/index/<?=$view_dados->id?>" method="POST" id='form'>
+	<div class="widget">
+		<fieldset>
+			<legend class="tituloVerde">INGREDIENTES</legend>
+			<div class="panel panel-primary">
+			<div class="panel-heading">
+		    	<b><?=$view_dados->nome?></b>
+			</div>	
+			<div class="panel-body table-responsive">
+			<table class="table tbIngrediente">
+				<?php
+				foreach($view_dados->ingredientes as $val){
+					?>
+					<tr>
+						<td>
+							<div class="switch">
+								<input id="cmn-toggle-7<?=$val->id?>" class="cmn-toggle cmn-toggle-yes-no" checked="checked" value="on" name="<?=$val->id?>" type="checkbox" id="ing<?=$val->id?>">
+								<label for="cmn-toggle-7<?=$val->id?>" data-on="Com" data-off="Sem"></label>
+
+							</div>
+						</td>
+						<td><h2><?=$val->produto->nome?></h2></td>
+					</tr>
+
+					<?php
+				} ?></table>
+				</div>
+				</div>
+			</fieldset>
+			<br><button class="btn btn-primary ">
+			<h3>Prosseguir</h3>
+		</button>
+	</div>
+
+</form>

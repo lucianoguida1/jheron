@@ -1,0 +1,58 @@
+<?php
+use PFBC\Form;
+use PFBC\Element;
+ 
+//$form = new Form("cadastro-pessoa");
+$form = new Form("vertical");
+$form->configure(array(
+	'action'=>SITE."login/cadastrar",
+    "prevent" => array("bootstrap", "jQuery", "focus")
+));
+$form->addElement(new Element\Textbox("Nome completo:", "full_name",array(
+		'class'=>'form-control',
+		'required'=>1,
+)));
+
+$form->addElement(new Element\Phone("E-mail:", "email",array(
+		'class'=>'form-control',
+		'required'=>1,
+)));
+$form->addElement(new Element\Phone("Telofone:", "telefone",array(
+		'class'=>'form-control',
+		'required'=>1,
+)));
+$form->addElement(new Element\Textbox("Login:", "login",array(
+		'class'=>'form-control',
+		'required'=>1,
+)));
+$form->addElement(new Element\Password("Senha:", "senha",array(
+		'class'=>'form-control',
+		'required'=>1,
+		'id'=>'senha',
+)));
+$form->addElement(new Element\Password("Confirmar senha:", "Confirma Senha",array(
+		'class'=>'form-control',
+		'required'=>1,
+		'id'=>'confirm',
+)));
+
+$form->addElement(new Element\Button('Cadastrar','submit'));
+$form->addElement(new Element\Button("Cancel", "button", array(
+    "onclick" => "history.go(-1);"
+)));
+?>
+<datalist id="browsers_city">
+</datalist>
+<div class='col-md-8 col-md-offset-2'>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Cadastre-se</h3>
+  </div>
+  <div class="panel-body">
+  		<?php
+		$form->render();
+		?>
+  </div>
+</div>
+
+</div>

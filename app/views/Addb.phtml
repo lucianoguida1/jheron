@@ -1,0 +1,24 @@
+<script>
+  $( function() {
+    $( "input" ).checkboxradio({
+      icon: false
+    });
+  } );
+</script>
+<form method="POST" action="<?=SITE?>pedido/addb/<?=$view_id?>">
+	<fieldset>
+	    <legend class="tituloVerde"><b>Bebibas</b> </legend>
+	     <?php $i=0; foreach($view_bebidas as $val){?>
+	        <label for="checkbox-<?=$i?>" style="width: 100%;padding: 0px;">
+	        <h3><b><?=$val->produto->nome?></b> - R$<?=$val->valor?></h3>    
+	        </label>
+	    <input type="checkbox" name="bebiba-<?=$val->id?>" value="<?=$val->id?>" id="checkbox-<?=$i?>">
+	    <?php $i++; } ?>
+	</fieldset>
+	<br><button class="btn btn-primary ">
+	    <h3>Adicionar</h3>
+	</button>
+	<button type="button" onclick="location='<?=SITE?>/pedido'" class="btn btn-danger">
+	    <h3>Cancelar</h3>
+	</button>
+</form>
